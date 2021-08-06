@@ -22,3 +22,25 @@ class Product(models.Model):
     return reverse('product_detail', args = [
       self.category.slug, self.slug
     ])
+
+class VaritationManager(models.Manager):
+  def color(self):
+    return super(VaritationManager, self).filter(variation_category = 'color', is_active = True)
+
+  def size(self):
+    return super(VaritationManager, self).filter(variation_category = 'size', is_active = True)
+
+
+
+class Variation(models.Model):
+  variation_cat_choice = (
+    ('color', 'color'),
+    ('size', 'size')
+  )
+  product = models.ForeignKey(Product, on_delete = models.CASCADE)
+  variation_category = models.CharField(max_length=20, choices = variation_cat_choice)
+  variation_values = models.CharField(max_length=50)
+  is_active = models.BooleanField(default=True)
+
+  def __unicode(self):
+    return self.product
