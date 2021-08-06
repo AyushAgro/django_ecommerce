@@ -14,7 +14,8 @@
               <a href="#"><img src="{{ single_product.image.url }}"></a>
             </div> <!-- img-big-wrap.// -->
 
-            <form action="{% url 'add_cart' single_product.id %}" method = 'GET'>
+            <form action="{% url 'add_cart' single_product.id %}" method='POST'>
+              {% csrf_token %}
           </article> <!-- gallery-wrap .end// -->
         </aside>
         <main class="col-md-6 border-left">
@@ -34,20 +35,23 @@
             <div class="row">
               <div class="item-option-select">
                 <h6>Choose Color</h6>
-                <select name="color" class = 'form-control' required>
-                  <option value = '' selected disabled>Select</option>
+                <select name="color" class='form-control' required>
+                  <option value='' selected disabled>Select</option>
 
-                  {% for i in single_product.variation_set.all %}
-                  <option value = '{{ i.variation_values}}'>{{ i.variation_values }}</option>
+                  {% for i in single_product.variation_set.color %}
+                  <option value='{{ i.variation_values | lower}}'>{{ i.variation_values | capfirst }}</option>
                   {% endfor %}
                 </select>
               </div>
             </div> <!-- row.// -->
             <div class="row">
               <div class="item-option-select">
-                <h6>Select Size</h6>
-                <select name="size" class = 'form-control'>
-                  <option class = 'S'>S</option>
+                <h6>Choose Size</h6>
+                <select name="size" class='form-control' required>
+                  <option value='' selected disabled>Select</option>
+                  {% for i in single_product.variation_set.size %}
+                  <option value='{{ i.variation_values | lower}}'>{{ i.variation_values | capfirst }}</option>
+                  {% endfor %}
                 </select>
               </div>
             </div> <!-- row.// -->

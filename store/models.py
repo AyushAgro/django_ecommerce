@@ -31,7 +31,6 @@ class VaritationManager(models.Manager):
     return super(VaritationManager, self).filter(variation_category = 'size', is_active = True)
 
 
-
 class Variation(models.Model):
   variation_cat_choice = (
     ('color', 'color'),
@@ -42,5 +41,7 @@ class Variation(models.Model):
   variation_values = models.CharField(max_length=50)
   is_active = models.BooleanField(default=True)
 
-  def __unicode(self):
-    return self.product
+  object = VaritationManager()
+
+  def __str__(self):
+    return self.variation_values
